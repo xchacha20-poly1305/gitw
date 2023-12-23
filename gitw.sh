@@ -24,6 +24,7 @@ custom_help() {
     echo "    help        show this message"
     echo "    addall      add all file to git"
     echo "    commits     git commit -s"
+    echo "    commita     git commit --amend"
     echo "    sync        force sync remote"
     echo "    clean       clean git reflog"
     echo
@@ -35,14 +36,20 @@ custom_help() {
 
 addall() {
     pushd $(git rev-parse --show-toplevel) >/dev/null
-    git add . "$@"
+    git add . $@
     popd >/dev/null
 
     exit 0
 }
 
 commits() {
-    git commit -s "$@"
+    git commit -s $@
+    exit 0
+}
+
+commita() {
+    unsafe_notice
+    git commit --amend $@
     exit 0
 }
 
@@ -72,10 +79,11 @@ main() {
     [ "$1" == "help" ] && custom_help
     [ "$1" == "addall" ] && addall $OTHER_OPTIONS
     [ "$1" == "commits" ] && commits $OTHER_OPTIONS
+    [ "$1" == "commita" ] && commita $OTHER_OPTIONS
     [ "$1" == "sync" ] && sync $OTHER_OPTIONS
     [ "$1" == "clean" ] && clean
 
-    git "$@"
+    git $@
 }
 
-main "$@"
+main $@
