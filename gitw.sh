@@ -2,22 +2,19 @@
 
 set -e
 
+########################## constant
+
 RED="\e[91m"
 PLAIN="\e[0m"
+
+########################## shared functions
 
 unsafe_notice() {
     echo "${RED}UNSAFE command!${PLAIN} sleep 3s"
     sleep 3s
 }
 
-main() {
-    [ "$1" == "help" ] && custom_help
-    [ "$1" == "addall" ] && addall ${@:2}
-    [ "$1" == "commits" ] && commits ${@:2}
-    [ "$1" == "sync" ] && sync ${@:2}
-
-    git "$@"
-}
+########################## commands
 
 custom_help() {
     echo
@@ -36,9 +33,9 @@ custom_help() {
 }
 
 addall() {
-    pushd $(git rev-parse --show-toplevel) > /dev/null
+    pushd $(git rev-parse --show-toplevel) >/dev/null
     git add . "$@"
-    popd > /dev/null
+    popd >/dev/null
 
     exit 0
 }
@@ -55,6 +52,17 @@ sync() {
     git reset --hard FETCH_HEAD
 
     exit 0
+}
+
+############################# start
+
+main() {
+    [ "$1" == "help" ] && custom_help
+    [ "$1" == "addall" ] && addall ${@:2}
+    [ "$1" == "commits" ] && commits ${@:2}
+    [ "$1" == "sync" ] && sync ${@:2}
+
+    git "$@"
 }
 
 main "$@"
