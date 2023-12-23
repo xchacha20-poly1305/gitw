@@ -25,6 +25,7 @@ custom_help() {
     echo "    addall      add all file to git"
     echo "    commits     git commit -s"
     echo "    sync        force sync remote"
+    echo "    clean       clean git reflog"
     echo
     echo "options:"
     echo "    options for git"
@@ -54,13 +55,25 @@ sync() {
     exit 0
 }
 
+clean() {
+    unsafe_notice
+
+    git reflog expire --expire=now --all
+    git gc --prune=now
+
+    exit 0
+}
+
 ############################# start
 
 main() {
+    OTHER_OPTIONS=${@:2}
+
     [ "$1" == "help" ] && custom_help
-    [ "$1" == "addall" ] && addall ${@:2}
-    [ "$1" == "commits" ] && commits ${@:2}
-    [ "$1" == "sync" ] && sync ${@:2}
+    [ "$1" == "addall" ] && addall $OTHER_OPTIONS
+    [ "$1" == "commits" ] && commits $OTHER_OPTIONS
+    [ "$1" == "sync" ] && sync $OTHER_OPTIONS
+    [ "$1" == "clean" ] && clean
 
     git "$@"
 }
