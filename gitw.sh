@@ -5,6 +5,9 @@ set -e
 ########################## constant
 
 RED="\e[91m"
+YELLOW="\e[93m"
+BLUE="\e[94m"
+GREEN="\e[92m"
 PLAIN="\e[0m"
 
 ########################## shared functions
@@ -18,22 +21,22 @@ unsafe_notice() {
 
 custom_help() {
     echo
-    echo "$0 <command> [options]"
+    echo -e "${GREEN}$0 ${BLUE}<command> ${YELLOW}[options]${PLAIN}"
     echo
     echo "command:"
-    echo "    help        show this message"
-    echo "    addall      add all file to git"
-    echo "    commits     git commit -s"
-    echo "    commita     git commit --amend"
-    echo "    sync        force sync remote"
-    echo "    clean       clean git reflog"
-    echo "    squash [HEAD]      squash some commits"
+    echo -e "    ${BLUE}help${PLAIN}                show this message"
+    echo -e  "    ${BLUE}addall${PLAIN}              add all file to git"
+    echo -e "    ${BLUE}commits${PLAIN}             git commit -s"
+    echo -e "    ${BLUE}commita${PLAIN}             git commit --amend"
+    echo -e "    ${BLUE}sync${PLAIN}                force sync remote"
+    echo -e "    ${BLUE}clean${PLAIN}               clean git reflog"
+    echo -e "    ${BLUE}squash [HEAD]${PLAIN}       squash some commits"
     echo
-    echo "options:"
+    echo -e "${YELLOW}options:${PLAIN}"
     echo "    options for git"
     echo
-    echo "HEAD:"
-    echo "    git hader, like HEAD^ or sha1"
+    echo -e "${YELLOW}HEAD:${PLAIN}"
+    echo -e "    git hader, like HEAD^ or sha1"
 
     exit 0
 }
