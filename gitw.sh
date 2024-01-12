@@ -25,7 +25,7 @@ custom_help() {
     echo
     echo "command:"
     echo -e "    ${BLUE}help${PLAIN}                show this message"
-    echo -e  "    ${BLUE}addall${PLAIN}              add all file to git"
+    echo -e "    ${BLUE}addall${PLAIN}              add all file to git"
     echo -e "    ${BLUE}commits${PLAIN}             git commit -s"
     echo -e "    ${BLUE}commita${PLAIN}             git commit --amend"
     echo -e "    ${BLUE}sync${PLAIN}                force sync remote"
@@ -97,6 +97,9 @@ squash() {
 ############################# start
 
 main() {
+    [ "$1" == "clean" ] && clean
+    [ "$1" == "squash" ] && squash $2
+
     OTHER_OPTIONS=${@:2}
 
     [ "$1" == "help" ] && custom_help
@@ -104,8 +107,6 @@ main() {
     [ "$1" == "commits" ] && commits $OTHER_OPTIONS
     [ "$1" == "commita" ] && commita $OTHER_OPTIONS
     [ "$1" == "sync" ] && sync $OTHER_OPTIONS
-    [ "$1" == "clean" ] && clean
-    [ "$1" == "squash" ] && squash $2
 
     git $@
 }
