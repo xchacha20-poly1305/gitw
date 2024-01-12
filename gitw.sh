@@ -86,8 +86,8 @@ squash() {
 
     unsafe_notice
 
-    TARGET_COMMIT=$1
-    NOW_COMMIT=$(git rev-parse HEAD)
+    local TARGET_COMMIT=$1
+    local NOW_COMMIT=$(git rev-parse HEAD)
 
     git reset --hard $TARGET_COMMIT
     git merge $NOW_COMMIT --squash
@@ -100,7 +100,7 @@ main() {
     [ "$1" == "clean" ] && clean
     [ "$1" == "squash" ] && squash $2
 
-    OTHER_OPTIONS=${@:2}
+    local OTHER_OPTIONS=${@:2}
 
     [ "$1" == "help" ] && custom_help
     [ "$1" == "addall" ] && addall $OTHER_OPTIONS
