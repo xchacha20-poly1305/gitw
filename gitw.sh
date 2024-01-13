@@ -21,6 +21,10 @@ function unsafe_notice() {
     done
 }
 
+function now_commit() {
+    git rev-parse HEAD
+}
+
 ########################## commands
 
 custom_help() {
@@ -35,6 +39,7 @@ custom_help() {
     echo -e "    ${BLUE}sync${PLAIN}                force sync remote"
     echo -e "    ${BLUE}clean${PLAIN}               clean git reflog"
     echo -e "    ${BLUE}squash [HEAD]${PLAIN}       squash some commits"
+    echo -e "    ${BLUE}now${PLAIN}                 Show now HEAD"
     echo
     echo -e "${YELLOW}options:${PLAIN}"
     echo "    options for git"
@@ -91,7 +96,7 @@ squash() {
     unsafe_notice
 
     local TARGET_COMMIT=$1
-    local NOW_COMMIT=$(git rev-parse HEAD)
+    local NOW_COMMIT=$(now_commit)
     local OTHER_OPTIONS=${@:2}
 
     git reset --hard $TARGET_COMMIT
@@ -101,10 +106,16 @@ squash() {
     exit 0
 }
 
+now() {
+    now_commit
+    exit 0
+}
+
 ############################# start
 
 main() {
     [ "$1" == "clean" ] && clean
+    [ "$1" == "now" ] && now
 
     local OTHER_OPTIONS=${@:2}
 
