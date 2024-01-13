@@ -35,7 +35,7 @@ custom_help() {
     echo
     echo "command:"
     echo -e "    ${BLUE}help${PLAIN}                show this message"
-    echo -e "    ${BLUE}addall${PLAIN}              add all file to git"
+    echo -e "    ${BLUE}add${PLAIN}                 add ${RED}all${PLAIN} file to git"
     echo -e "    ${BLUE}commits${PLAIN}             git commit -s"
     echo -e "    ${BLUE}commita${PLAIN}             git commit --amend"
     echo -e "    ${BLUE}sync${PLAIN}                force sync remote"
@@ -122,7 +122,7 @@ main() {
     local OTHER_OPTIONS=${@:2}
 
     [ "$1" == "help" ] && custom_help
-    [ "$1" == "addall" ] && addall $OTHER_OPTIONS
+    [ "$1" == "add" ] && addall $OTHER_OPTIONS
     [ "$1" == "commits" ] && commits $OTHER_OPTIONS
     [ "$1" == "commita" ] && commita $OTHER_OPTIONS
     [ "$1" == "sync" ] && sync $OTHER_OPTIONS
