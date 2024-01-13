@@ -67,7 +67,7 @@ commita() {
 sync() {
     unsafe_notice
 
-    git fetch
+    git fetch $@
     git reset --hard FETCH_HEAD
 
     exit 0
@@ -97,13 +97,14 @@ squash() {
     git reset --hard $TARGET_COMMIT
     git merge $NOW_COMMIT --squash
     git commit $OTHER_OPTIONS
+
+    exit 0
 }
 
 ############################# start
 
 main() {
     [ "$1" == "clean" ] && clean
-    [ "$1" == "squash" ] && squash $2
 
     local OTHER_OPTIONS=${@:2}
 
@@ -112,6 +113,7 @@ main() {
     [ "$1" == "commits" ] && commits $OTHER_OPTIONS
     [ "$1" == "commita" ] && commita $OTHER_OPTIONS
     [ "$1" == "sync" ] && sync $OTHER_OPTIONS
+    [ "$1" == "squash" ] && squash $OTHER_OPTIONS
 
     git $@
 }
