@@ -33,7 +33,7 @@ custom_help() {
     echo
     echo -e "${GREEN}$script_name ${BLUE}<command> ${YELLOW}[options]${PLAIN}"
     echo
-    echo "command:"
+    echo "commands:"
     echo -e "    ${BLUE}help${PLAIN}                show this message"
     echo -e "    ${BLUE}add${PLAIN}                 add ${RED}all${PLAIN} file to git"
     echo -e "    ${BLUE}commits${PLAIN}             git commit -s"
