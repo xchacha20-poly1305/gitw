@@ -28,8 +28,10 @@ function now_commit() {
 ########################## commands
 
 custom_help() {
+    local script_name=$(basename "$0")
+
     echo
-    echo -e "${GREEN}$0 ${BLUE}<command> ${YELLOW}[options]${PLAIN}"
+    echo -e "${GREEN}$script_name ${BLUE}<command> ${YELLOW}[options]${PLAIN}"
     echo
     echo "command:"
     echo -e "    ${BLUE}help${PLAIN}                show this message"
