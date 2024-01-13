@@ -12,7 +12,7 @@ PLAIN="\e[0m"
 
 ########################## shared functions
 
-unsafe_notice() {
+function unsafe_notice() {
     echo -e "${RED}UNSAFE command!${PLAIN} sleep 3s"
     sleep 3s
 }
