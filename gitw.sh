@@ -13,8 +13,12 @@ PLAIN="\e[0m"
 ########################## shared functions
 
 function unsafe_notice() {
-    echo -e "${RED}UNSAFE command!${PLAIN} sleep 3s"
-    sleep 3s
+    echo -e "${RED}UNSAFE command!${PLAIN}"
+
+    for ((i = 3; i > 0; i--)); do
+        echo -e "${YELLOW}$i${PLAIN}"
+        sleep 1
+    done
 }
 
 ########################## commands
