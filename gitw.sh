@@ -22,7 +22,7 @@ function unsafe_notice() {
 }
 
 function now_commit() {
-    git rev-parse HEAD
+    git log -n 1 --pretty=format:%H ${@:2}
 }
 
 ########################## commands
@@ -109,7 +109,7 @@ squash() {
 }
 
 now() {
-    now_commit
+    now_commit ${@:2}
     exit 0
 }
 
@@ -117,7 +117,6 @@ now() {
 
 main() {
     [ "$1" == "clean" ] && clean
-    [ "$1" == "now" ] && now
 
     local OTHER_OPTIONS=${@:2}
 
@@ -127,6 +126,7 @@ main() {
     [ "$1" == "commita" ] && commita $OTHER_OPTIONS
     [ "$1" == "sync" ] && sync $OTHER_OPTIONS
     [ "$1" == "squash" ] && squash $OTHER_OPTIONS
+    [ "$1" == "now" ] && now $OTHER_OPTIONS
 
     git $@
 }
