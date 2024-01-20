@@ -117,8 +117,7 @@ squash() {
 }
 
 now() {
-    # shellcheck disable=SC2068
-    now_commit ${@:2}
+    now_commit HEAD
     exit 0
 }
 
