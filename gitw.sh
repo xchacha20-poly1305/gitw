@@ -22,12 +22,13 @@ function unsafe_notice() {
 }
 
 function now_commit() {
-    git log -n 1 --pretty=format:%H $1
+    git log -n 1 --pretty=format:%H "$1"
 }
 
 ########################## commands
 
 custom_help() {
+    # shellcheck disable=SC2155
     local script_name=$(basename "$0")
 
     echo
@@ -54,7 +55,8 @@ custom_help() {
 }
 
 addall() {
-    pushd $(git rev-parse --show-toplevel) >/dev/null
+    pushd "$(git rev-parse --show-toplevel)" >/dev/null
+    # shellcheck disable=SC2068
     git add . $@
     popd >/dev/null
 
@@ -62,12 +64,14 @@ addall() {
 }
 
 commits() {
+    # shellcheck disable=SC2068
     git commit -s $@
     exit 0
 }
 
 commita() {
     unsafe_notice
+    # shellcheck disable=SC2068
     git commit --amend $@
     exit 0
 }
@@ -75,6 +79,7 @@ commita() {
 sync() {
     unsafe_notice
 
+    # shellcheck disable=SC2068
     git fetch $@
     git reset --hard FETCH_HEAD
 
@@ -91,7 +96,7 @@ clean() {
 }
 
 squash() {
-    if [ -z $(git branch --show-current) ]; then
+    if [ -z "$(git branch --show-current)" ]; then
         echo "You are not one a branch"
         exit 1
     fi
@@ -99,32 +104,42 @@ squash() {
     unsafe_notice
 
     local TARGET_COMMIT=$1
+    # shellcheck disable=SC2155
     local NOW_COMMIT=$(now_commit)
+    # shellcheck disable=SC2124
     local OTHER_OPTIONS=${@:2}
 
-    git reset --hard $TARGET_COMMIT
-    git merge $NOW_COMMIT --squash
-    git commit $OTHER_OPTIONS
+    git reset --hard "$TARGET_COMMIT"
+    git merge "$NOW_COMMIT" --squash
+    git commit "$OTHER_OPTIONS"
 
     exit 0
 }
 
 now() {
+    # shellcheck disable=SC2068
     now_commit ${@:2}
     exit 0
 }
 
 auto_pick() {
     local PICK_COMMIT=$1
+    # shellcheck disable=SC2155
     local NOW_COMMIT=$(now_commit)
+    # shellcheck disable=SC2124
     local OTHER_OPTIONS=${@:2}
 
+    # shellcheck disable=SC2155
     local pick_parent=$(now_commit PICK_COMMIT)
 
-    if [[ $pick_parent == $NOW_COMMIT ]]; then
-        git merge $PICK_COMMIT --ff-only $OTHER_OPTIONS
+    if [[ "$pick_parent" == "$NOW_COMMIT" ]]; then
+        git merge "$PICK_COMMIT" --ff-only \
+            \ # shellcheck disable=SC2086
+        $OTHER_OPTIONS
     else
-        git cherry-pick $PICK_COMMIT $OTHER_OPTIONS
+        git cherry-pick "$PICK_COMMIT" \
+            \ # shellcheck disable=SC2086
+        $OTHER_OPTIONS
     fi
 
     exit 0
@@ -135,17 +150,26 @@ auto_pick() {
 main() {
     [ "$1" == "clean" ] && clean
 
+    # shellcheck disable=SC2124
     local OTHER_OPTIONS=${@:2}
 
     [ "$1" == "help" ] && custom_help
+    # shellcheck disable=SC2086
     [ "$1" == "add" ] && addall $OTHER_OPTIONS
+    # shellcheck disable=SC2086
     [ "$1" == "commits" ] && commits $OTHER_OPTIONS
+    # shellcheck disable=SC2086
     [ "$1" == "commita" ] && commita $OTHER_OPTIONS
+    # shellcheck disable=SC2086
     [ "$1" == "sync" ] && sync $OTHER_OPTIONS
+    # shellcheck disable=SC2086
     [ "$1" == "squash" ] && squash $OTHER_OPTIONS
+    # shellcheck disable=SC2086
     [ "$1" == "now" ] && now $OTHER_OPTIONS
 
+    # shellcheck disable=SC2068
     git $@
 }
 
+# shellcheck disable=SC2068
 main $@
