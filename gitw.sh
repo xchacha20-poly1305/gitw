@@ -165,7 +165,9 @@ main() {
     # shellcheck disable=SC2086
     [ "$1" == "squash" ] && squash $OTHER_OPTIONS
     # shellcheck disable=SC2086
-    [ "$1" == "now" ] && now $OTHER_OPTIONS
+    [ "$1" == "now" ] && now $OTHER_OPTIONS 
+    # shellcheck disable=SC2086
+    [ "$1" == "pick" ] && auto_pick $OTHER_OPTIONS
 
     # shellcheck disable=SC2068
     git $@
