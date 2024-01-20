@@ -22,7 +22,7 @@ function unsafe_notice() {
 }
 
 function now_commit() {
-    git log -n 1 --pretty=format:%H ${@:2}
+    git log -n 1 --pretty=format:%H $1
 }
 
 ########################## commands
@@ -42,6 +42,7 @@ custom_help() {
     echo -e "    ${BLUE}clean${PLAIN}               clean git reflog"
     echo -e "    ${BLUE}squash [HEAD]${PLAIN}       squash some commits"
     echo -e "    ${BLUE}now${PLAIN}                 Show now HEAD"
+    echo -e "    ${BLUE}pick [HEAD]${PLAIN}         auto pick commit"
     echo
     echo -e "${YELLOW}options:${PLAIN}"
     echo "    options for git"
@@ -110,6 +111,22 @@ squash() {
 
 now() {
     now_commit ${@:2}
+    exit 0
+}
+
+auto_pick() {
+    local PICK_COMMIT=$1
+    local NOW_COMMIT=$(now_commit)
+    local OTHER_OPTIONS=${@:2}
+
+    local pick_parent=$(now_commit PICK_COMMIT)
+
+    if [[ $pick_parent == $NOW_COMMIT ]]; then
+        git merge $PICK_COMMIT --ff-only $OTHER_OPTIONS
+    else
+        git cherry-pick $PICK_COMMIT $OTHER_OPTIONS
+    fi
+
     exit 0
 }
 
