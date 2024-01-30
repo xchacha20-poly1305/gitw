@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-set -x
+# set -x
 
 ########################## constant
 
@@ -134,11 +134,9 @@ auto_pick() {
 
     if [[ "$pick_parent" == "$NOW_COMMIT" ]]; then
         git merge "$PICK_COMMIT" --ff-only \
-            \ # shellcheck disable=SC2086
         $OTHER_OPTIONS
     else
         git cherry-pick "$PICK_COMMIT" \
-            \ # shellcheck disable=SC2086
         $OTHER_OPTIONS
     fi
 
