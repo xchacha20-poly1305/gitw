@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -x
 
 ########################## constant
 
@@ -124,12 +125,12 @@ now() {
 auto_pick() {
     local PICK_COMMIT=$1
     # shellcheck disable=SC2155
-    local NOW_COMMIT=$(now_commit)
+    local NOW_COMMIT=$(now_commit HEAD)
     # shellcheck disable=SC2124
     local OTHER_OPTIONS=${@:2}
 
     # shellcheck disable=SC2155
-    local pick_parent=$(now_commit PICK_COMMIT)
+    local pick_parent=$(now_commit "$PICK_COMMIT")
 
     if [[ "$pick_parent" == "$NOW_COMMIT" ]]; then
         git merge "$PICK_COMMIT" --ff-only \
