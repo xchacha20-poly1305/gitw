@@ -106,13 +106,13 @@ squash() {
 
     local TARGET_COMMIT=$1
     # shellcheck disable=SC2155
-    local NOW_COMMIT=$(now_commit)
+    local NOW_COMMIT=$(now_commit HEAD)
     # shellcheck disable=SC2124
     local OTHER_OPTIONS=${@:2}
 
     git reset --hard "$TARGET_COMMIT"
     git merge "$NOW_COMMIT" --squash
-    git commit "$OTHER_OPTIONS"
+    git commit $OTHER_OPTIONS
 
     exit 0
 }
