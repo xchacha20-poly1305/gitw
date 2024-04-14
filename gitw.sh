@@ -130,14 +130,14 @@ auto_pick() {
     local OTHER_OPTIONS=${@:2}
 
     # shellcheck disable=SC2155
-    local pick_parent=$(now_commit "$PICK_COMMIT")
+    local pick_parent=$(now_commit "${PICK_COMMIT}^")
 
-    if [[ "$pick_parent" == "$NOW_COMMIT" ]]; then
+    if [[ "$pick_parent" == ${NOW_COMMIT}* ]]; then
         git merge "$PICK_COMMIT" --ff-only \
-        $OTHER_OPTIONS
+            $OTHER_OPTIONS
     else
         git cherry-pick "$PICK_COMMIT" \
-        $OTHER_OPTIONS
+            $OTHER_OPTIONS
     fi
 
     exit 0
@@ -163,7 +163,7 @@ main() {
     # shellcheck disable=SC2086
     [ "$1" == "squash" ] && squash $OTHER_OPTIONS
     # shellcheck disable=SC2086
-    [ "$1" == "now" ] && now $OTHER_OPTIONS 
+    [ "$1" == "now" ] && now $OTHER_OPTIONS
     # shellcheck disable=SC2086
     [ "$1" == "pick" ] && auto_pick $OTHER_OPTIONS
 
