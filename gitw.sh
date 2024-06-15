@@ -51,8 +51,6 @@ custom_help() {
     echo
     echo -e "${YELLOW}HEAD:${PLAIN}"
     echo -e "    git hader, like HEAD^ or sha1"
-
-    exit 0
 }
 
 addall() {
@@ -60,21 +58,17 @@ addall() {
     # shellcheck disable=SC2068
     git add . $@
     popd >/dev/null
-
-    exit 0
 }
 
 commits() {
     # shellcheck disable=SC2068
     git commit -s $@
-    exit 0
 }
 
 commita() {
     unsafe_notice
     # shellcheck disable=SC2068
     git commit --amend $@
-    exit 0
 }
 
 sync() {
@@ -83,8 +77,6 @@ sync() {
     # shellcheck disable=SC2068
     git fetch $@
     git reset --hard FETCH_HEAD
-
-    exit 0
 }
 
 clean() {
@@ -92,8 +84,6 @@ clean() {
 
     git reflog expire --expire=now --all
     git gc --prune=now
-
-    exit 0
 }
 
 squash() {
@@ -113,13 +103,10 @@ squash() {
     git reset --hard "$TARGET_COMMIT"
     git merge "$NOW_COMMIT" --squash
     git commit $OTHER_OPTIONS
-
-    exit 0
 }
 
 now() {
     now_commit HEAD
-    exit 0
 }
 
 auto_pick() {
@@ -139,8 +126,6 @@ auto_pick() {
         git cherry-pick "$PICK_COMMIT" \
             $OTHER_OPTIONS
     fi
-
-    exit 0
 }
 
 ############################# start
@@ -151,21 +136,53 @@ main() {
     # shellcheck disable=SC2124
     local OTHER_OPTIONS=${@:2}
 
-    [ "$1" == "help" ] && custom_help
-    # shellcheck disable=SC2086
-    [ "$1" == "add" ] && addall $OTHER_OPTIONS
-    # shellcheck disable=SC2086
-    [ "$1" == "commits" ] && commits $OTHER_OPTIONS
-    # shellcheck disable=SC2086
-    [ "$1" == "commita" ] && commita $OTHER_OPTIONS
-    # shellcheck disable=SC2086
-    [ "$1" == "sync" ] && sync $OTHER_OPTIONS
-    # shellcheck disable=SC2086
-    [ "$1" == "squash" ] && squash $OTHER_OPTIONS
-    # shellcheck disable=SC2086
-    [ "$1" == "now" ] && now $OTHER_OPTIONS
-    # shellcheck disable=SC2086
-    [ "$1" == "pick" ] && auto_pick $OTHER_OPTIONS
+    case "${1}" in
+    "help")
+        custom_help
+        exit 0
+        ;;
+    "add")
+        # shellcheck disable=SC2086
+        addall $OTHER_OPTIONS
+        exit 0
+        ;;
+    "commits")
+        # shellcheck disable=SC2086
+        commits $OTHER_OPTIONS
+        exit 0
+        ;;
+    "commita")
+        # shellcheck disable=SC2086
+        commita $OTHER_OPTIONS
+        exit 0
+        ;;
+    "sync")
+        # shellcheck disable=SC2086
+        sync $OTHER_OPTIONS
+        exit 0
+        ;;
+    "clean")
+        # shellcheck disable=SC2086
+        clean $OTHER_OPTIONS
+        exit 0
+        ;;
+    "squash")
+        # shellcheck disable=SC2086
+        squash $OTHER_OPTIONS
+        exit 0
+        ;;
+    "now")
+        # shellcheck disable=SC2086
+        now $OTHER_OPTIONS
+        exit 0
+        ;;
+    "pick")
+        # shellcheck disable=SC2086
+        auto_pick $OTHER_OPTIONS
+        exit 0
+        ;;
+    *) ;;
+    esac
 
     # shellcheck disable=SC2068
     git $@
