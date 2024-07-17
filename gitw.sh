@@ -131,8 +131,6 @@ auto_pick() {
 ############################# start
 
 main() {
-    [ "$1" == "clean" ] && clean
-
     # shellcheck disable=SC2124
     local OTHER_OPTIONS=${@:2}
 
