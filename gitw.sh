@@ -45,12 +45,13 @@ custom_help() {
     echo -e "    ${BLUE}squash [HEAD]${PLAIN}       squash some commits"
     echo -e "    ${BLUE}now${PLAIN}                 Show now HEAD"
     echo -e "    ${BLUE}pick [HEAD]${PLAIN}         auto pick commit"
+    echo -e "    ${BLUE}cleanb${PLAIN}              Clean the branches that remotes not have"
     echo
     echo -e "${YELLOW}options:${PLAIN}"
     echo "    options for git"
     echo
     echo -e "${YELLOW}HEAD:${PLAIN}"
-    echo -e "    git hader, like HEAD^ or sha1"
+    echo -e "    git header, like HEAD^ or sha1"
 }
 
 addall() {
@@ -128,6 +129,12 @@ auto_pick() {
     fi
 }
 
+cleanb() {
+    unsafe_notice
+
+    git fetch $@ --prune
+}
+
 ############################# start
 
 main() {
@@ -180,6 +187,11 @@ main() {
         exit 0
         ;;
     *) ;;
+    "cleanb")
+        # shellcheck disable=SC2086
+        cleanb $OTHER_OPTIONS
+        exit 0
+        ;;
     esac
 
     # shellcheck disable=SC2068
