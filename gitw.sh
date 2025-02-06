@@ -181,17 +181,17 @@ main() {
         now $OTHER_OPTIONS
         exit 0
         ;;
+    "cleanb")
+        # shellcheck disable=SC2086
+        cleanb $OTHER_OPTIONS
+        exit 0
+        ;;
     "pick")
         # shellcheck disable=SC2086
         auto_pick $OTHER_OPTIONS
         exit 0
         ;;
     *) ;;
-    "cleanb")
-        # shellcheck disable=SC2086
-        cleanb $OTHER_OPTIONS
-        exit 0
-        ;;
     esac
 
     # shellcheck disable=SC2068
