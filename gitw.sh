@@ -52,7 +52,7 @@ custom_help() {
     echo "    options for git"
     echo
     echo -e "${YELLOW}HEAD:${PLAIN}"
-    echo -e "    git header, like HEAD^ or sha1"
+    echo -e "    git header, like HEAD^ or commit hash"
 }
 
 addall() {
