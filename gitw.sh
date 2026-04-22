@@ -46,6 +46,7 @@ custom_help() {
     echo -e "    ${BLUE}now${PLAIN}                 Show now HEAD"
     echo -e "    ${BLUE}pick [HEAD]${PLAIN}         auto pick commit"
     echo -e "    ${BLUE}cleanb${PLAIN}              Clean the branches that remotes not have"
+    echo -e "    ${BLUE}reword [HEAD]${PLAIN}       Rewrite commit message (git history reword)"
     echo
     echo -e "${YELLOW}options:${PLAIN}"
     echo "    options for git"
@@ -135,6 +136,14 @@ cleanb() {
     git fetch $@ --prune
 }
 
+# Require git v2.54+
+reword() {
+    unsafe_notice
+
+    local args=( "${@:-HEAD}" )
+    git history reword $args
+}
+
 ############################# start
 
 main() {
@@ -189,6 +198,10 @@ main() {
     "pick")
         # shellcheck disable=SC2086
         auto_pick $OTHER_OPTIONS
+        exit 0
+        ;;
+    "reword")
+        reword $OTHER_OPTIONS
         exit 0
         ;;
     *) ;;
